@@ -1,0 +1,23 @@
+---
+import axios from "axios";
+
+const url = "localhost:8080/getmovies";
+interface AllMovies {
+    data:Movie[],
+}
+interface Movie {
+    id: number,
+    title: string,
+    cover:string,
+    rating:number
+}
+async function fetchData(): Promise<AllMovies> {
+    const {data} = await axios.get<AllMovies>(url);
+    return data;
+}
+const data = fetchData().then(data => )
+---
+
+<div>
+    {data}
+</div>
