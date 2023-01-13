@@ -5,6 +5,7 @@ pub mod controllers;
 pub mod models;
 pub mod schema;
 
+use actix_cors::Cors;
 use controllers::routes::{
     get_all_movies,
     get_movie,create_movie,
@@ -27,7 +28,10 @@ async fn manual_hello() -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
+        let cors = Cors::default()
+            .allowed_methods(vec!["GET"]);
         App::new()
+                .wrap(cors)
                 .service(get_all_movies)
                 .service(get_movie)
                 // .service(make_a_test_movies)
