@@ -18,7 +18,7 @@ use actix_web::{
     HttpResponse, 
     HttpServer, 
     Responder, 
-    guard,
+    guard, middleware::Logger,
 };
 
 async fn manual_hello() -> impl Responder {
@@ -28,10 +28,9 @@ async fn manual_hello() -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
-        let cors = Cors::default()
-            .allowed_methods(vec!["GET"]);
         App::new()
-                .wrap(cors)
+                .wrap(Cors::permissive())
+                .wrap(Logger::default())
                 .service(get_all_movies)
                 .service(get_movie)
                 // .service(make_a_test_movies)
