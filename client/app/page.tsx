@@ -1,5 +1,6 @@
 import AllTheMovies from "./AllMovies";
-export default function Home() {
+
+export default async function Home() {
   return (
     <main>
       <div className="flex w-full">
