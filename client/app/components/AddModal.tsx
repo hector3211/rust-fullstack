@@ -20,19 +20,23 @@ export default function Modal({ header, inputOne, inputTwo }: ModalProps) {
           >
             X
           </label>
-          <h3 className="text-lg font-bold">{header}</h3>
-          <div className="flex flex-col justify-between">
-            <input
-              className="border border-white rounded-md my-1"
-              type={"text"}
-              placeholder={inputOne}
-            />
-            <input
-              className="border border-white rounded-md my-1"
-              type={"text"}
-              placeholder={inputTwo}
-            />
-            <button className="btn btn-success">Submit</button>
+          <div className="flex flex-col justify-between items-center">
+            <h3 className="text-3xl font-bold pb-5">{header}</h3>
+            <div className="flex flex-col justify-center w-60">
+              <input
+                className="border border-white rounded-md my-1"
+                type={"text"}
+                placeholder={inputOne}
+              />
+              <input
+                className="border border-white rounded-md my-1"
+                type={"text"}
+                placeholder={inputTwo}
+              />
+            </div>
+            <button className="btn btn-success btn-wide my-3 w-ful">
+              Submit
+            </button>
           </div>
         </div>
       </div>

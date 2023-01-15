@@ -1,4 +1,3 @@
-use std::env;
 
 use actix_web::error::ErrorNotFound;
 use actix_web::http::header::{HeaderValue, self};
@@ -6,6 +5,7 @@ use actix_web::web::Header;
 use actix_web::{get, post, put, delete, HttpResponse, Responder, Result, Error, web, HttpRequest};
 use diesel::prelude::*;
 use dotenvy::dotenv;
+use std::env;
 use crate::models::{Movie,NewMovie};
 use crate::db::establish_connection;
 
@@ -99,16 +99,22 @@ pub async fn update_movie(path: web::Path<(i32,i32)>)
 // #[delete("/delete/{movie_id}")]
 pub async fn delete_movie(path: web::Path<i32>, req: HttpRequest)
 -> Result<impl Responder, Error> {
-    // use crate::schema::movies::dsl::*;
+    dotenv().ok();
+    let creds = env::var("TOKEN").expect("No Admin token prodvided");
+    use crate::schema::movies::dsl::*;
     let movie_id = path.into_inner();
-    // let connect = &mut establish_connection();
-    // let delete_selected_movie = diesel::delete(movies.filter(id.eq(movie_id)))
-    //     .execute(connect)
-    //     .expect("Error deleting movie");
+    let header = req.headers().get(&creds).expect("no token header was set");
+    if header.eq(&creds) { 
+        let connect = &mut establish_connection();
+        let delete_selected_movie = diesel::delete(movies.filter(id.eq(movie_id)))
+            .execute(connect)
+            .expect("Error deleting movie");
 
-    // Ok(HttpResponse::Ok().json(delete_selected_movie))
-    let header = req.headers().get("token").expect("not token header was set");
-    Ok(HttpResponse::Ok().body(format!("request header value is - {:?}",header)))
+        Ok(HttpResponse::Ok().json(delete_selected_movie))
+    } else {
+        Err(ErrorNotFound("Error not admin bud"))
+    }
+    // Ok(HttpResponse::Ok().body(format!("request header value is - {:?}",header)))
 
 }
 // #[delete("/delete/{movie_id}/{username}")]
