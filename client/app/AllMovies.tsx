@@ -1,10 +1,11 @@
-import { Movie, Poster } from "@/typings";
+import { Movie } from "@/typings";
+import Link from "next/link";
 import MoviePoster from "./components/Posters";
 
-const url = "http://localhost:8080/getmovies";
-
 async function fetchMoives() {
-  const res = await fetch(url);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/getmovies`, {
+    next: { revalidate: 10 },
+  });
   if (!res) {
     throw new Error("Error fetching data from server");
   }
@@ -20,16 +21,17 @@ export default async function GetMovies() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex h-full flex-wrap overflow-hidden pt-5">
       {movies.map((movie) => (
         <div
           key={movie.id}
-          className="px-5 flex flex-col justify-center items-center"
+          className="basis-4/12 px-5 flex flex-col justify-center items-center"
         >
-          <MoviePoster title={movie.title} />
+          <Link href={`/movies/${movie.id}`}>
+            <MoviePoster title={movie.title} />
+          </Link>
         </div>
       ))}
-      {}
     </div>
   );
 }

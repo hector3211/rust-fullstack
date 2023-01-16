@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Poster, Movie } from "@/typings";
+import { Poster } from "@/typings";
 
 type MovieTitle = {
   title: string;
@@ -28,7 +28,7 @@ export default function MoviePoster({ title }: MovieTitle) {
     <img
       src={posterUrl.Poster}
       alt={"poster for ${movieTitle}"}
-      className="object-fill border border-teal-500 rounded-md"
+      className="h-3/4 object-fill border border-teal-500 rounded-md"
     />
   );
 }
