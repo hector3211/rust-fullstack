@@ -16,6 +16,7 @@ async function fetchMoives() {
 
 export default async function GetMovies() {
   const movies = await fetchMoives();
+
   if (!movies) {
     return <div>Loading...</div>;
   }
@@ -27,7 +28,7 @@ export default async function GetMovies() {
           key={movie.id}
           className="basis-4/12 px-5 flex flex-col justify-center items-center"
         >
-          <Link href={`/movies/${movie.id}`}>
+          <Link href={`/movies/${movie.title}`}>
             <MoviePoster title={movie.title} />
           </Link>
         </div>

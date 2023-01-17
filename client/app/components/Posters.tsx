@@ -9,7 +9,7 @@ type MovieTitle = {
 };
 
 export default function MoviePoster({ title }: MovieTitle) {
-  const [posterUrl, setPosterUrl] = useState<Poster | null>(null);
+  const [posterUrl, setPosterUrl] = useState<Poster>();
 
   useEffect(() => {
     axios
@@ -26,7 +26,7 @@ export default function MoviePoster({ title }: MovieTitle) {
 
   return (
     <img
-      src={posterUrl.Poster}
+      src={posterUrl?.Poster}
       alt={"poster for ${movieTitle}"}
       className="h-3/4 object-fill border border-teal-500 rounded-md"
     />

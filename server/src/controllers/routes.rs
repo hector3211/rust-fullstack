@@ -95,28 +95,43 @@ pub async fn update_movie(path: web::Path<(i32,i32)>)
     Ok(HttpResponse::Ok().json(updating_movie))
 }
 
-// still got to clean this up, need to figure out what to return in to return 
-// #[delete("/delete/{movie_id}")]
-pub async fn delete_movie(path: web::Path<i32>, req: HttpRequest)
+
+
+#[delete("delete/{movie_id}")]
+pub async fn delete_movie(path: web::Path<i32>)
 -> Result<impl Responder, Error> {
-    dotenv().ok();
-    let creds = env::var("TOKEN").expect("No Admin token prodvided");
     use crate::schema::movies::dsl::*;
     let movie_id = path.into_inner();
-    let header = req.headers().get(&creds).expect("no token header was set");
-    if header.eq(&creds) { 
-        let connect = &mut establish_connection();
-        let delete_selected_movie = diesel::delete(movies.filter(id.eq(movie_id)))
-            .execute(connect)
-            .expect("Error deleting movie");
+    let connect = &mut establish_connection();
+    let delete_selected_movie = diesel::delete(movies.filter(id.eq(movie_id)))
+        .execute(connect)
+        .expect("Error deleting movie");
 
         Ok(HttpResponse::Ok().json(delete_selected_movie))
-    } else {
-        Err(ErrorNotFound("Error not admin bud"))
-    }
-    // Ok(HttpResponse::Ok().body(format!("request header value is - {:?}",header)))
-
 }
+
+// still got to clean this up, need to figure out what to return in to return 
+// #[delete("/delete/{movie_id}")]
+// pub async fn delete_movie(path: web::Path<i32>, req: HttpRequest)
+// -> Result<impl Responder, Error> {
+//     dotenv().ok();
+//     let creds = env::var("TOKEN").expect("No Admin token prodvided");
+//     use crate::schema::movies::dsl::*;
+//     let movie_id = path.into_inner();
+//     let header = req.headers().get(&creds).expect("no token header was set");
+//     if header.eq(&creds) { 
+//         let connect = &mut establish_connection();
+//         let delete_selected_movie = diesel::delete(movies.filter(id.eq(movie_id)))
+//             .execute(connect)
+//             .expect("Error deleting movie");
+//
+//         Ok(HttpResponse::Ok().json(delete_selected_movie))
+//     } else {
+//         Err(ErrorNotFound("Error not admin bud"))
+//     }
+//     // Ok(HttpResponse::Ok().body(format!("request header value is - {:?}",header)))
+//
+// }
 // #[delete("/delete/{movie_id}/{username}")]
 // pub async fn delete_movie(path: web::Path<(i32,String)>)
 // -> Result<impl Responder, Error> {

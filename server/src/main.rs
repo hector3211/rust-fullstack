@@ -18,7 +18,8 @@ use actix_web::{
     HttpResponse, 
     HttpServer, 
     Responder, 
-    guard, middleware::Logger,
+    // guard,
+    middleware::Logger,
 };
 
 async fn manual_hello() -> impl Responder {
@@ -36,15 +37,16 @@ async fn main() -> std::io::Result<()> {
                 // .service(make_a_test_movies)
                 .service(create_movie)
                 .service(update_movie)
-                .service(
+                .service(delete_movie)
+                // .service(
                 // Delete route is protected by our guard header
-                    web::resource("/delete/{movie_id}")
-                        .route(
-                            web::delete()
-                                .guard(guard::Header("token", "098"))
-                                .to(delete_movie)
-                        )
-                )
+                //     web::resource("/delete/{movie_id}")
+                //         .route(
+                //             web::delete()
+                //                 .guard(guard::Header("token", "098"))
+                //                 .to(delete_movie)
+                //         )
+                // )
             .route("/hey", web::get().to(manual_hello))
     })
     .bind(("127.0.0.1", 8080))?
