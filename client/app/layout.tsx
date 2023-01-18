@@ -1,6 +1,5 @@
 import "./globals.css";
 import Nav from "./Nav";
-import Footer from "./Footer";
 
 export default function RootLayout({
   children,
@@ -17,7 +16,6 @@ export default function RootLayout({
       <body className="min-h-screen max-w-full bg-zinc-800">
         <Nav />
         {children}
-        <Footer />
       </body>
     </html>
   );

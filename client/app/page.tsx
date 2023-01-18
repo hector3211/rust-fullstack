@@ -1,4 +1,5 @@
 import AllTheMovies from "./AllMovies";
+import Footer from "./Footer";
 
 export default async function Home() {
   return (
@@ -7,6 +8,7 @@ export default async function Home() {
         {/* @ts-expect-error Server Component */}
         <AllTheMovies />
       </div>
+      <Footer />
     </main>
   );
 }

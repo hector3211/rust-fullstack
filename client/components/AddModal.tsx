@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 type ModalProps = {
@@ -12,21 +12,21 @@ export default function Modal({ header, inputOne, inputTwo }: ModalProps) {
   let [movieTitle, setMovieTitle] = useState<string | null>("");
   let [MovieRating, setMovieRating] = useState<string | null>("");
   let [addButton, setAddButton] = useState<true | false>(true);
-  // would like to add this to our modal alert depending on status we get back
-  // let [responseStatus, setResponseStatus] = useState<string | null>(null);
+  const [responseStatus, setResponseStatus] = useState<number>();
 
   function handleSubmitButton() {
-    console.log(movieTitle);
-    console.log(MovieRating);
     axios
       .post(
         `${process.env.NEXT_PUBLIC_URL}/newmovie/${movieTitle}/${movieTitle}/${MovieRating}`
       )
-      .then((res) => console.log(res.status))
+      .then((res) => setResponseStatus(res.status))
       .catch((res) => console.log(res));
     movieTitle = "";
     MovieRating = "";
     setAddButton(false);
+  }
+  if (responseStatus === 200) {
+    window.location.reload();
   }
 
   return (

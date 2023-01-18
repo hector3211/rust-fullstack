@@ -32,3 +32,36 @@ export type Poster = {
   totalSeasons: string;
   Response: string;
 };
+
+export type Tmdb = {
+  poster_path: string;
+  adult: string;
+  overview: string;
+  release_date: string;
+  gengre_ids: number[];
+  id: number;
+  original_title: string;
+  original_language: string;
+  title: string;
+  backdrop: string;
+  popularity: number;
+  vote_count: number;
+  video: boolean;
+  vote_average: number;
+};
+//
+export type Video = {
+  id: number;
+  results: {
+    iso_639_1: string;
+    iso_3166_1: string;
+    name: string;
+    key: string;
+    site: string;
+    size: number;
+    type: string;
+    official: boolean;
+    published_at: string;
+    id: string;
+  }[];
+};
