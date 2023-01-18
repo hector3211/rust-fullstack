@@ -9,9 +9,10 @@ import Link from "next/link";
 type MovieTitle = {
   title: string;
   id: number;
+  rating: number;
 };
 
-export default function MoviePoster({ title, id }: MovieTitle) {
+export default function MoviePoster({ title, id, rating }: MovieTitle) {
   const router = useRouter();
   const [posterUrl, setPosterUrl] = useState<Poster>();
   const [responseStatus, setResponseStatus] = useState<number>();
@@ -26,7 +27,7 @@ export default function MoviePoster({ title, id }: MovieTitle) {
     // router.push("https://localhost:3000/api/revalidate?secret=revalidate");
   }
   if (responseStatus === 200) {
-    window.location.reload();
+    router.refresh();
   }
 
   useEffect(() => {
@@ -39,7 +40,11 @@ export default function MoviePoster({ title, id }: MovieTitle) {
   }, [title]);
 
   if (!posterUrl) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-wrap justify-evenly items-center pt-10">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   return (
@@ -52,7 +57,7 @@ export default function MoviePoster({ title, id }: MovieTitle) {
         />
       </Link>
       <div className="flex justify-between items-start py-1">
-        <p>⭐{posterUrl.imdbRating}</p>
+        <p>⭐{rating}</p>
         <button
           onClick={handleDelete}
           className="btn btn-sm btn-ghost hover:btn-error"

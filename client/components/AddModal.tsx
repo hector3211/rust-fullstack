@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type ModalProps = {
   header: string;
@@ -9,10 +10,11 @@ type ModalProps = {
 };
 
 export default function Modal({ header, inputOne, inputTwo }: ModalProps) {
-  let [movieTitle, setMovieTitle] = useState<string | null>("");
-  let [MovieRating, setMovieRating] = useState<string | null>("");
+  let [movieTitle, setMovieTitle] = useState<string>("");
+  let [MovieRating, setMovieRating] = useState<string>("");
   let [addButton, setAddButton] = useState<true | false>(true);
   const [responseStatus, setResponseStatus] = useState<number>();
+  const router = useRouter();
 
   function handleSubmitButton() {
     axios
@@ -26,7 +28,7 @@ export default function Modal({ header, inputOne, inputTwo }: ModalProps) {
     setAddButton(false);
   }
   if (responseStatus === 200) {
-    window.location.reload();
+    router.refresh();
   }
 
   return (
