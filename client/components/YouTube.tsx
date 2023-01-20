@@ -1,9 +1,18 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
+
 type YtProps = {
   key: string;
 };
+
 export default function YT({ key }: YtProps) {
+  const [movieKey, setMovieKey] = useState<string>("");
+
+  useEffect(() => {
+    setMovieKey(key);
+  }, [key]);
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
@@ -18,5 +27,5 @@ export default function YT({ key }: YtProps) {
     },
   };
 
-  return <YouTube videoId={key} opts={opts} onReady={onPlayerReady} />;
+  return <YouTube videoId={movieKey} opts={opts} onReady={onPlayerReady} />;
 }

@@ -8,16 +8,19 @@ type PageProps = {
   };
 };
 async function fetchVideoId(id: number) {
+  console.log(`Youtube id : ${id}`);
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_MOVIE}`
   );
   const data: Video = await res.json();
-  const newData = data;
-  return newData;
+  console.log(`key is ${data?.results[0]?.key}`);
+  return data;
 }
 
 async function fetchTmdbData(title: string) {
+  console.log(`Title: ${title}`);
   const res = await fetch(
+    // `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${updated_title}`
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${title}`
   );
   if (!res) {
@@ -40,9 +43,12 @@ async function fetchMovieData(title: string) {
 export default async function MoviePage({ params: { movietitle } }: PageProps) {
   const movieData = await fetchMovieData(movietitle);
   const tmdbData = await fetchTmdbData(movieData.Title);
-  const videoInfo = await fetchVideoId(tmdbData.id);
-  // console.log(tmdbData.id);
-  // console.log(videoInfo);
+  const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
+  const firstVideo = videoInfo?.results[0]?.key;
+
+  // console.log(movieData);
+  // console.log(tmdbData?.results[0]?.id);
+  console.log(`data recieved from video search ${firstVideo}`);
   // const firstVideo = videoInfo?.results[0]?.key;
   return (
     <div className="flex flex-col items-center my-10">
@@ -62,11 +68,13 @@ export default async function MoviePage({ params: { movietitle } }: PageProps) {
             <p className="text-lg">{movieData.Genre}</p>
           </div>
           <div className="py-2">
-            <h1 className="">Description</h1>
-            <hr className="text-teal-500 text-lg" />
+            <h1 className="">Description: </h1>
             <p className="text-lg">{movieData.Plot}</p>
           </div>
         </div>
+      </div>
+      <div>
+        <Ytvideo key={`${firstVideo}`} />
       </div>
       <footer className="absolute bottom-0 pb-10">
         <Link href={"/"} className="btn btn-primary">
