@@ -8,17 +8,17 @@ type PageProps = {
   };
 };
 async function fetchVideoId(id: number) {
-  console.log(`Youtube id : ${id}`);
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_MOVIE}`
   );
+  if (!res) {
+    console.log("Error fetching TMdb data");
+  }
   const data: Video = await res.json();
-  console.log(`key is ${data?.results[0]?.key}`);
   return data;
 }
 
 async function fetchTmdbData(title: string) {
-  console.log(`Title: ${title}`);
   const res = await fetch(
     // `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${updated_title}`
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${title}`
@@ -44,26 +44,23 @@ export default async function MoviePage({ params: { movietitle } }: PageProps) {
   const movieData = await fetchMovieData(movietitle);
   const tmdbData = await fetchTmdbData(movieData.Title);
   const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
-  const firstVideo = videoInfo?.results[0]?.key;
+  const firstVideo = videoInfo?.results[1]?.key;
 
-  // console.log(movieData);
-  // console.log(tmdbData?.results[0]?.id);
-  console.log(`data recieved from video search ${firstVideo}`);
-  // const firstVideo = videoInfo?.results[0]?.key;
   return (
-    <div className="flex flex-col items-center my-10">
-      <div className="flex justify-around items-center">
+    <div className="flex flex-col items-center">
+      <Ytvideo videoId={firstVideo} />
+      <div className="flex justify-around items-center pt-10">
         <img
           src={movieData?.Poster}
           alt={"poster for ${movieTitle}"}
-          className="object-fill border border-teal-500 rounded-md"
+          className="object-fill border-2 border-teal-500 rounded-md drop-shadow-2xl"
         />
         <div className="w-1/2 text-2xl">
-          <div className="flex items-end">
+          <div className="py-2 flex items-end">
             <h1 className="pr-2">Title:</h1>
             <p className="text-lg">{movieData.Title}</p>
           </div>
-          <div className="flex items-end">
+          <div className="py-2 flex items-end">
             <h1 className="pr-2">Genre: </h1>
             <p className="text-lg">{movieData.Genre}</p>
           </div>
@@ -71,16 +68,12 @@ export default async function MoviePage({ params: { movietitle } }: PageProps) {
             <h1 className="">Description: </h1>
             <p className="text-lg">{movieData.Plot}</p>
           </div>
+          <div className="py-2">
+            <h1 className="">Featured Actors: </h1>
+            <p className="text-lg">{movieData.Actors}</p>
+          </div>
         </div>
       </div>
-      <div>
-        <Ytvideo key={`${firstVideo}`} />
-      </div>
-      <footer className="absolute bottom-0 pb-10">
-        <Link href={"/"} className="btn btn-primary">
-          Go Home
-        </Link>
-      </footer>
     </div>
   );
 }

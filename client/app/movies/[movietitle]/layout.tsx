@@ -5,5 +5,5 @@ export default function MovieTitleLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <div className="pt-20">{children}</div>;
 }

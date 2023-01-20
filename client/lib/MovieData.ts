@@ -2,7 +2,7 @@ import { Movie } from "@/typings";
 
 export async function fetchFromActix() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/getmovies`, {
-    next: { revalidate: 10 },
+    next: { revalidate: 5 },
   });
   if (!res) {
     throw new Error("Error fetching data from server");

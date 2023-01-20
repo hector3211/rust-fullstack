@@ -1,31 +1,30 @@
 "use client";
-
-import { useState, useEffect } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
 
 type YtProps = {
-  key: string;
+  videoId: string;
 };
 
-export default function YT({ key }: YtProps) {
-  const [movieKey, setMovieKey] = useState<string>("");
-
-  useEffect(() => {
-    setMovieKey(key);
-  }, [key]);
+export default function YT({ videoId }: YtProps) {
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
     // access to player in all event handlers via event.target
-    event.target.pauseVideo();
+    // event.target.setPlaybackQuality("1080");
+    event.target.playVideo();
+    console.log(event.target.getPlayerState());
   };
 
   const opts: YouTubeProps["opts"] = {
-    height: "390",
-    width: "640",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
     },
   };
 
-  return <YouTube videoId={movieKey} opts={opts} onReady={onPlayerReady} />;
+  return (
+    <YouTube
+      className="object-fill border-2 border-orange-500 rounded-md shadow-black drop-shadow-lg"
+      videoId={videoId}
+      opts={opts}
+      onReady={onPlayerReady}
+    />
+  );
 }

@@ -53,7 +53,7 @@ export default function MoviePoster({ title, id, rating }: MovieTitle) {
         <img
           src={posterUrl.Poster}
           alt={"poster for ${movieTitle}"}
-          className="h-full object-fill border border-teal-500 rounded-md"
+          className="h-full object-fill border-2 border-teal-500 rounded-md"
         />
       </Link>
       <div className="flex justify-between items-start py-1">

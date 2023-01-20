@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author": "Hector Oropesa",
+  "license": "MIT",
   "dependencies": {
     "@next/font": "13.1.2",
     "@types/node": "18.11.18",
