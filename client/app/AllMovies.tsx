@@ -10,9 +10,9 @@ export default async function GetMovies() {
   }
 
   return (
-    <div className="flex flex-wrap justify-evenly items-center pt-10">
+    <div className="flex flex-wrap justify-evenly items-center pt-10 lg:justify-start lg:items-center lg:px-12">
       {movies.map((movie) => (
-        <div key={movie.id} className="basis-60 py-2">
+        <div key={movie.id} className="basis-60 py-2 lg:basis-64">
           <MoviePoster
             title={movie.title}
             id={movie.id}

@@ -1,5 +1,4 @@
 import { Poster, Tmdb, Video } from "@/typings";
-import Link from "next/link";
 import Ytvideo from "../../../components/YouTube";
 
 type PageProps = {

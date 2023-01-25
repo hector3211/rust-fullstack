@@ -17,7 +17,7 @@ export default async function Navbar() {
         <ul className="menu menu-horizontal px-1">
           {/* 
 // @ts-ignore */}
-          <li>{<UserInfo user={session?.user} />}</li>
+          {session && <li>{<UserInfo user={session.user} />}</li>}
           <li>
             <Link href={"/"} className="text-white">
               Home

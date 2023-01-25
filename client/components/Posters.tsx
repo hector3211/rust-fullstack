@@ -6,13 +6,13 @@ import { Poster } from "@/typings";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-type MovieTitle = {
+type PosterProps = {
   title: string;
   id: number;
   rating: number;
 };
 
-export default function MoviePoster({ title, id, rating }: MovieTitle) {
+export default function MoviePoster({ title, id, rating }: PosterProps) {
   const router = useRouter();
   const [posterUrl, setPosterUrl] = useState<Poster>();
   const [responseStatus, setResponseStatus] = useState<number>();
