@@ -12,3 +12,14 @@ diesel = {version = "2.0.0", features = ["postgres"]}
 dotenvy = "0.15.6"
 serde = { version = "1.0", features = ["derive"]}
 ```
+
+### How to run
+
+Set/Start database
+
+- make a .env file and fill it up like the .env.example
+- docker compose up -d
+
+Start Sever
+
+- cargo watch -x run
