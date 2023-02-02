@@ -1,10 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Poster } from "@/typings";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import DeleteButton from "./deleteButton";
 
 type PosterProps = {
   title: string;
@@ -12,34 +8,20 @@ type PosterProps = {
   rating: number;
 };
 
-export default function MoviePoster({ title, id, rating }: PosterProps) {
-  const router = useRouter();
-  const [posterUrl, setPosterUrl] = useState<Poster>();
-  const [responseStatus, setResponseStatus] = useState<number>();
-
-  function handleDelete() {
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_URL}/delete/${id}`)
-      .then((res) => {
-        setResponseStatus(res.status);
-      })
-      .catch((error) => console.log(error));
-    // router.push("https://localhost:3000/api/revalidate?secret=revalidate");
+async function fetchPoster(title: string) {
+  const res = await fetch(
+    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.NEXT_PUBLIC_POSTER_API_KEY}`
+  );
+  if (!res.ok) {
+    console.log("Problem fetching posters");
   }
-  if (responseStatus === 200) {
-    router.refresh();
-  }
+  const data: Poster = await res.json();
+  return data;
+}
 
-  useEffect(() => {
-    axios
-      .get(
-        `http://www.omdbapi.com/?t=${title}&apikey=${process.env.NEXT_PUBLIC_POSTER_API_KEY}`
-      )
-      .then((res) => setPosterUrl(res.data))
-      .catch((error) => console.log(error));
-  }, [title]);
-
-  if (!posterUrl) {
+export default async function MoviePoster({ title, id, rating }: PosterProps) {
+  const poster = await fetchPoster(title);
+  if (!poster) {
     return (
       <div className="flex flex-wrap justify-evenly items-center pt-10">
         <div>Loading...</div>
@@ -49,21 +31,16 @@ export default function MoviePoster({ title, id, rating }: PosterProps) {
 
   return (
     <div>
-      <Link href={`/movies/${posterUrl.Title}`}>
+      <Link href={`/movies/${poster.Title}`}>
         <img
-          src={posterUrl.Poster}
+          src={poster.Poster}
           alt={"poster for ${movieTitle}"}
           className="h-full object-fill border-2 border-teal-500 rounded-md"
         />
       </Link>
       <div className="flex justify-between items-start py-1">
-        <p>⭐{rating}</p>
-        <button
-          onClick={handleDelete}
-          className="btn btn-sm btn-ghost hover:btn-error"
-        >
-          Delete
-        </button>
+        <p>⭐{poster.imdbRating}</p>
+        <DeleteButton id={id} />
       </div>
     </div>
   );

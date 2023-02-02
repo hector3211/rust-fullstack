@@ -7,5 +7,4 @@ export default function User({ user }: { user: DefaultSession["user"] }) {
   if (session) {
     return <div>{user?.email}</div>;
   }
-  return <div></div>;
 }
