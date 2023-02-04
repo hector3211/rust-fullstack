@@ -5,15 +5,16 @@ pub mod models;
 pub mod schema;
 pub mod actions;
 
-use db::establish_connection;
-
+use std::env;
+// use db::establish_connection;
 
 use actix_cors::Cors;
 use controllers::routes::{
     get_all_movies,
-    // get_movie,create_movie,
+    make_a_test_movies,
+    create_movie,
+    delete_movie
     // update_movie,
-    // delete_movie
 };
 use actix_web::{
     web, 
@@ -21,9 +22,15 @@ use actix_web::{
     HttpResponse, 
     HttpServer, 
     Responder, 
-    // guard,
     middleware::Logger,
 };
+use diesel::{
+    prelude::*,
+    r2d2::{self,ConnectionManager}
+};
+use dotenvy::dotenv;
+
+pub type DbPool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
 async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")
@@ -32,7 +39,14 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let pool = establish_connection();
+    // let pool = establish_connection();
+    dotenv().ok();
+    let database_url = env::var("DATABASE_URL")
+        .expect("Database url in .env must be set dude!");
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    let pool = r2d2::Pool::builder()
+        .build(manager)
+        .expect("Failed to create pool");
 
     HttpServer::new(move|| {
         App::new()
@@ -41,10 +55,10 @@ async fn main() -> std::io::Result<()> {
                 .wrap(Logger::default())
                 .service(get_all_movies)
                 // .service(get_movie)
-                // // .service(make_a_test_movies)
-                // .service(create_movie)
+                .service(make_a_test_movies)
+                .service(create_movie)
                 // .service(update_movie)
-                // .service(delete_movie)
+                .service(delete_movie)
                 // .service(
                 // Delete route is protected by our guard header
                 //     web::resource("/delete/{movie_id}")

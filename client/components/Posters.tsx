@@ -10,7 +10,7 @@ type PosterProps = {
 
 async function fetchPoster(title: string) {
   const res = await fetch(
-    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.NEXT_PUBLIC_POSTER_API_KEY}`
+    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.POSTER_API_KEY}`
   );
   if (!res.ok) {
     console.log("Problem fetching posters");

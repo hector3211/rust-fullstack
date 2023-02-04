@@ -8,7 +8,7 @@ type PageProps = {
 };
 async function fetchVideoId(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_MOVIE}`
+    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.MOVIE_API_KEY}`
   );
   if (!res.ok) {
     console.log("Error fetching TMdb data");
@@ -20,7 +20,7 @@ async function fetchVideoId(id: number) {
 async function fetchTmdbData(title: string) {
   const res = await fetch(
     // `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${updated_title}`
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${title}`
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${title}`
   );
   if (!res.ok) {
     console.log("Error fetching TMdb data");
@@ -31,7 +31,7 @@ async function fetchTmdbData(title: string) {
 
 async function fetchMovieData(title: string) {
   const res = await fetch(
-    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.NEXT_PUBLIC_POSTER_API_KEY}`
+    `http://www.omdbapi.com/?t=${title}&apikey=${process.env.POSTER_API_KEY}`
   );
   if (!res.ok) {
     console.log("Error fetching omdb data");

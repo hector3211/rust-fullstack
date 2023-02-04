@@ -2,7 +2,7 @@ use serde::{Deserialize,Serialize};
 use diesel::prelude::*;
 use crate::schema::movies;
 
-#[derive(Debug,Queryable,Deserialize,Serialize)]
+#[derive(Debug,Queryable,Deserialize,Serialize,Clone)]
 pub struct Movie {
     pub id: i32,
     pub title: String,
@@ -10,7 +10,7 @@ pub struct Movie {
     pub rating: i32,
 }
 
-#[derive(Insertable,Serialize)]
+#[derive(Insertable,Serialize,Clone)]
 #[diesel(table_name = movies)]
 pub struct NewMovie<'a> {
     pub title: &'a str,

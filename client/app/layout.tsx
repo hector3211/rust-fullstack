@@ -1,6 +1,5 @@
 import "./globals.css";
-import Nav from "./Nav";
-import ProvidersWrapper from "./session";
+import NavBar from "./Nav";
 
 export default function RootLayout({
   children,
@@ -9,18 +8,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
       <head />
       <body className="min-h-screen max-w-full bg-zinc-800">
-        <ProvidersWrapper>
-          {/* 
-// @ts-ignore */}
-          <Nav />
-          {children}
-        </ProvidersWrapper>
+        {/* @ts-expect-error Server Component */}
+        <NavBar />
+        {children}
       </body>
     </html>
   );

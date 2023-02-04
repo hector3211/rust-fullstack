@@ -2,7 +2,7 @@ import { Movie } from "@/typings";
 import MoviePoster from "../components/Posters";
 
 export async function fetchFromActix() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/getmovies`, {
+  const res = await fetch(`${process.env.SERVER_URL}/getmovies`, {
     next: { revalidate: 5 },
   });
   if (!res.ok) {

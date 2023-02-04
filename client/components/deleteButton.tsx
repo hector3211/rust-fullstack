@@ -24,7 +24,9 @@ export default function TheButton({ id }: ButtonProps) {
   }, []);
   async function handleDelete() {
     console.log(id);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/delete/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/delete/${id}`, {
+      method: "DELETE",
+    });
     const status = res.status;
     if (status === 200) {
       router.refresh();
