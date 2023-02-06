@@ -3,28 +3,24 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-type ModalProps = {
-  inputOne: string;
-  inputTwo: string;
-};
-
-export default function Modal({ inputOne, inputTwo }: ModalProps) {
-  let [movieTitle, setMovieTitle] = useState<string | null>(null);
-  let [MovieRating, setMovieRating] = useState<string | null>(null);
+export default function Modal() {
+  let [movieTitle, setMovieTitle] = useState<string>("");
+  let [MovieRating, setMovieRating] = useState<string>("");
   let [addButton, setAddButton] = useState<true | false>(true);
   const [responseStatus, setResponseStatus] = useState<number | null>(null);
   const router = useRouter();
 
   function handleSubmitButton() {
+    setAddButton(false);
     axios
       .post(
         `${process.env.NEXT_PUBLIC_URL}/newmovie/${movieTitle}/${movieTitle}/${MovieRating}`
       )
       .then((res) => setResponseStatus(res.status))
       .catch((res) => console.log(res));
-    movieTitle = null;
-    MovieRating = null;
-    setAddButton(false);
+    setMovieTitle("");
+    setMovieRating("");
+    setAddButton(true);
   }
   if (responseStatus === 200) {
     setResponseStatus(null);
@@ -51,13 +47,15 @@ export default function Modal({ inputOne, inputTwo }: ModalProps) {
               <input
                 className="input w-full max-w-xs mb-2"
                 type={"text"}
-                placeholder={inputOne}
+                value={movieTitle}
+                placeholder={" Title"}
                 onChange={(e) => setMovieTitle(e.target.value)}
               />
               <input
                 className="input w-full max-w-xs"
                 type={"text"}
-                placeholder={inputTwo}
+                value={MovieRating}
+                placeholder={" Rating"}
                 onChange={(e) => setMovieRating(e.target.value)}
               />
             </div>

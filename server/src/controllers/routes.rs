@@ -16,13 +16,13 @@ pub async fn get_all_movies(
     .await?
     .map_err(|err| ErrorInternalServerError(err))?;
     //
-    //  if let Some(movies) = movies {
-    //     Ok(HttpResponse::Ok().json(movies))
-    // } else {
-    //     let res = HttpResponse::NotFound().body(format!("No user found with uid: {user_uid}"));
-    //     Ok(res)
-    // }
-    Ok(HttpResponse::Ok().json(movies))
+     if let Some(movies) = movies {
+        Ok(HttpResponse::Ok().json(movies))
+    } else {
+        let res = HttpResponse::NotFound().body(format!("Error getting movies from DB"));
+        Ok(res)
+    }
+    // Ok(HttpResponse::Ok().json(movies))
 }
 
 // Route that makes a query to our DB and filters by our movie title param in path

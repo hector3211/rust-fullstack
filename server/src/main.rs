@@ -1,14 +1,8 @@
 extern crate diesel;
-pub mod db;
 pub mod controllers;
 pub mod models;
 pub mod schema;
 pub mod actions;
-
-use std::env;
-// use db::establish_connection;
-
-use actix_cors::Cors;
 use controllers::routes::{
     get_all_movies,
     make_a_test_movies,
@@ -19,27 +13,21 @@ use controllers::routes::{
 use actix_web::{
     web, 
     App, 
-    HttpResponse, 
     HttpServer, 
-    Responder, 
     middleware::Logger,
 };
+use actix_cors::Cors;
 use diesel::{
     prelude::*,
     r2d2::{self,ConnectionManager}
 };
 use dotenvy::dotenv;
+use std::env;
 
 pub type DbPool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
-}
-
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // let pool = establish_connection();
     dotenv().ok();
     let database_url = env::var("DATABASE_URL")
         .expect("Database url in .env must be set dude!");
@@ -59,16 +47,6 @@ async fn main() -> std::io::Result<()> {
                 .service(create_movie)
                 // .service(update_movie)
                 .service(delete_movie)
-                // .service(
-                // Delete route is protected by our guard header
-                //     web::resource("/delete/{movie_id}")
-                //         .route(
-                //             web::delete()
-                //                 .guard(guard::Header("token", "098"))
-                //                 .to(delete_movie)
-                //         )
-                // )
-            .route("/hey", web::get().to(manual_hello))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

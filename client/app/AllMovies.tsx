@@ -1,5 +1,5 @@
 import { Movie } from "@/typings";
-import MoviePoster from "../components/Posters";
+import MoviePoster from "./components/poster";
 
 export async function fetchFromActix() {
   const res = await fetch(`${process.env.SERVER_URL}/getmovies`, {
@@ -15,9 +15,6 @@ export async function fetchFromActix() {
 
 export default async function GetMovies() {
   const movies = await fetchFromActix();
-  if (!movies) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="flex flex-wrap justify-evenly items-center pt-10 lg:justify-start lg:items-center lg:px-12">

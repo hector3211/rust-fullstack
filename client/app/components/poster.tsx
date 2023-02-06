@@ -1,12 +1,18 @@
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Poster } from "@/typings";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
-import DeleteButton from "./deleteButton";
+import DeleteButton from "./deletebutton";
 
 type PosterProps = {
   title: string;
   id: number;
   rating: number;
 };
+
+// type Token = {
+//   userRole: string;
+// };
 
 async function fetchPoster(title: string) {
   const res = await fetch(
@@ -19,7 +25,14 @@ async function fetchPoster(title: string) {
   return data;
 }
 
+// async function fetchToken() {
+//   const res = await fetch("/api/jwt");
+//   const token: Token = await res.json();
+//   return token;
+// }
+
 export default async function MoviePoster({ title, id, rating }: PosterProps) {
+  const session = await getServerSession(authOptions);
   const poster = await fetchPoster(title);
   if (!poster) {
     return (
@@ -34,7 +47,7 @@ export default async function MoviePoster({ title, id, rating }: PosterProps) {
       <Link href={`/movies/${poster.Title}`}>
         <img
           src={poster.Poster}
-          alt={"poster for ${movieTitle}"}
+          alt={` poster for ${title}`}
           className="h-full object-fill border-2 border-teal-500 rounded-md"
         />
       </Link>

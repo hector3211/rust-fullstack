@@ -19,8 +19,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token }) {
-      if (token && token.email === "hectororopesa5@gmail.com") {
-        token.userRole = "admin";
+      if (token && token.email === process.env.ADMIN_KEY) {
+        token.userRole = process.env.ADMIN_SECRET;
       }
       return token;
     },

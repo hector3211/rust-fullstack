@@ -4,12 +4,12 @@ use diesel::PgConnection;
 
 pub type DbError = Box<dyn std::error::Error + Send + Sync>;
 
-pub fn get_all_moives(conn: &mut PgConnection) -> Result<Vec<Movie>,DbError> {
+pub fn get_all_moives(conn: &mut PgConnection) -> Result<Option<Vec<Movie>>,DbError> {
     use crate::schema::movies::dsl::*;
     let all_movies: Vec<Movie> =  movies
         .load(conn)
         .expect("Error getting all Movies!");
-    Ok(all_movies)
+    Ok(Some(all_movies))
 }
 
 pub fn add_movie(

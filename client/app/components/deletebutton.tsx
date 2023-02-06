@@ -34,7 +34,7 @@ export default function TheButton({ id }: ButtonProps) {
   }
   return (
     <div>
-      {token?.userRole === "admin" ? (
+      {token?.userRole === process.env.NEXT_PUBLIC_ADMIN_SECRET ? (
         <button
           className="btn btn-sm btn-ghost hover:btn-error"
           onClick={handleDelete}
