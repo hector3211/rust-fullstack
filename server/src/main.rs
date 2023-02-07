@@ -37,6 +37,8 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed to create pool");
 
     HttpServer::new(move|| {
+        // let cors = Cors::default()
+        //     .al
         App::new()
             .app_data(web::Data::new(pool.clone()))
                 .wrap(Cors::permissive())

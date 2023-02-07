@@ -1,4 +1,5 @@
 import { Poster, Tmdb, Video } from "@/typings";
+import Link from "next/link";
 import Ytvideo from "../../components/youtube";
 
 type PageProps = {
@@ -19,7 +20,6 @@ async function fetchVideoId(id: number) {
 
 async function fetchTmdbData(title: string) {
   const res = await fetch(
-    // `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE}&query=${updated_title}`
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${title}`
   );
   if (!res.ok) {
@@ -43,35 +43,56 @@ export default async function MoviePage({ params: { movietitle } }: PageProps) {
   const movieData = await fetchMovieData(movietitle);
   const tmdbData = await fetchTmdbData(movieData.Title);
   const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
-  const firstVideo = videoInfo?.results[1]?.key;
 
   return (
-    <div className="flex flex-col items-center">
-      <Ytvideo videoId={firstVideo} />
-      <div className="flex justify-around items-center pt-10">
-        <img
-          src={movieData?.Poster}
-          alt={"poster for ${movieTitle}"}
-          className="object-fill border-2 border-teal-500 rounded-md drop-shadow-2xl"
-        />
-        <div className="w-1/2 text-2xl">
-          <div className="py-2 flex items-end">
-            <h1 className="pr-2">Title:</h1>
-            <p className="text-lg">{movieData.Title}</p>
-          </div>
-          <div className="py-2 flex items-end">
-            <h1 className="pr-2">Genre: </h1>
-            <p className="text-lg">{movieData.Genre}</p>
-          </div>
-          <div className="py-2">
-            <h1 className="">Description: </h1>
-            <p className="text-lg">{movieData.Plot}</p>
-          </div>
-          <div className="py-2">
-            <h1 className="">Featured Actors: </h1>
-            <p className="text-lg">{movieData.Actors}</p>
+    <div className="relative">
+      <div className="flex flex-col justify-center items-center">
+        <Ytvideo results={videoInfo?.results} />
+        <div className="md:flex md:justify-around md:items-center md:pt-10">
+          <img
+            src={movieData?.Poster}
+            alt={"poster for ${movieTitle}"}
+            className="md:mx-0 object-fill mx-auto border-2 border-teal-500 rounded-md drop-shadow-2xl"
+          />
+          <div className="px-3 md:w-1/2 text-2xl">
+            <div className="py-2 md:flex md:items-end">
+              <h1 className="pr-2">Title:</h1>
+              <p className="text-lg">{movieData.Title}</p>
+            </div>
+            <div className="py-2 md:flex md:items-end">
+              <h1 className="pr-2">Genre: </h1>
+              <p className="text-lg">{movieData.Genre}</p>
+            </div>
+            <div className="py-2">
+              <h1 className="">Runtime: </h1>
+              <p className="text-lg">{movieData.Runtime}</p>
+            </div>
+            <div className="py-2">
+              <h1 className="">Awards: </h1>
+              <p className="text-lg">{movieData.Awards}</p>
+            </div>
+            <div className="py-2">
+              <h1 className="">Featured Actors: </h1>
+              <p className="text-lg">{movieData.Actors}</p>
+            </div>
+            <div className="py-2">
+              <h1 className="">Description: </h1>
+              <p className="text-lg">{movieData.Plot}</p>
+            </div>
+
+            <div className="py-2">
+              <h1 className="">Rating: </h1>
+              <p className="text-lg">{movieData.imdbRating}</p>
+            </div>
           </div>
         </div>
+        <Link
+          href={`https://youtube.com/results?search_query=${movietitle}`}
+          target="_blank"
+          className="relative bottom-0 text-xl btn btn-success w-1/2"
+        >
+          Tailer
+        </Link>
       </div>
     </div>
   );

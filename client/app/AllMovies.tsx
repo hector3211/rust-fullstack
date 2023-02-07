@@ -17,9 +17,9 @@ export default async function GetMovies() {
   const movies = await fetchFromActix();
 
   return (
-    <div className="flex flex-wrap justify-evenly items-center pt-10 lg:justify-start lg:items-center lg:px-12">
+    <div className="flex flex-wrap justify-evenly items-center pt-10 lg:justify-evenly lg:items-center lg:px-12">
       {movies.map((movie) => (
-        <div key={movie.id} className="basis-60 py-2 lg:basis-64">
+        <div key={movie.id}>
           {/* @ts-expect-error Server Component */}
           <MoviePoster
             title={movie.title}

@@ -1,6 +1,4 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Poster } from "@/typings";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import DeleteButton from "./deletebutton";
 
@@ -25,14 +23,7 @@ async function fetchPoster(title: string) {
   return data;
 }
 
-// async function fetchToken() {
-//   const res = await fetch("/api/jwt");
-//   const token: Token = await res.json();
-//   return token;
-// }
-
 export default async function MoviePoster({ title, id, rating }: PosterProps) {
-  const session = await getServerSession(authOptions);
   const poster = await fetchPoster(title);
   if (!poster) {
     return (
@@ -48,7 +39,7 @@ export default async function MoviePoster({ title, id, rating }: PosterProps) {
         <img
           src={poster.Poster}
           alt={` poster for ${title}`}
-          className="h-full object-fill border-2 border-teal-500 rounded-md"
+          className="h-60 object-fill border-2 border-teal-500 rounded-md"
         />
       </Link>
       <div className="flex justify-between items-start py-1">

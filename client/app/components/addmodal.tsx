@@ -2,12 +2,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+// import Toast from "./toast";
 
 export default function Modal() {
-  let [movieTitle, setMovieTitle] = useState<string>("");
-  let [MovieRating, setMovieRating] = useState<string>("");
-  let [addButton, setAddButton] = useState<true | false>(true);
+  const [movieTitle, setMovieTitle] = useState<string>("");
+  const [MovieRating, setMovieRating] = useState<string>("");
+  const [addButton, setAddButton] = useState<true | false>(true);
   const [responseStatus, setResponseStatus] = useState<number | null>(null);
+  // const [showToast, setShowToast] = useState<true | false>(false);
   const router = useRouter();
 
   function handleSubmitButton() {
@@ -23,8 +25,8 @@ export default function Modal() {
     setAddButton(true);
   }
   if (responseStatus === 200) {
-    setResponseStatus(null);
     router.refresh();
+    setResponseStatus(null);
   }
 
   return (
