@@ -7,9 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme={"dark"}>
       <head />
-      <body className="min-h-screen max-w-full bg-zinc-800">
+      <body className="min-h-screen max-w-full">
         {/* @ts-expect-error Server Component */}
         <NavBar />
         {children}

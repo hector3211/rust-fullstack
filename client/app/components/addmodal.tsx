@@ -34,7 +34,11 @@ export default function Modal() {
       <label htmlFor="my-modal-3" className="btn btn-primary w-32">
         Add
       </label>
-      <input type={"checkbox"} id="my-modal-3" className="modal-toggle" />
+      <input
+        type={"checkbox"}
+        id="my-modal-3"
+        className="modal-toggle input input-bordered required:border-red-500"
+      />
       <div className="modal">
         <div className="modal-box relative">
           <label

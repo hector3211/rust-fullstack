@@ -7,27 +7,27 @@ type PageProps = {
     movietitle: string;
   };
 };
-async function fetchVideoId(id: number) {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.MOVIE_API_KEY}`
-  );
-  if (!res.ok) {
-    console.log("Error fetching TMdb data");
-  }
-  const data: Video = await res.json();
-  return data;
-}
-
-async function fetchTmdbData(title: string) {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${title}`
-  );
-  if (!res.ok) {
-    console.log("Error fetching TMdb data");
-  }
-  const data: Tmdb = await res.json();
-  return data;
-}
+// async function fetchVideoId(id: number) {
+//   const res = await fetch(
+//     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.MOVIE_API_KEY}`
+//   );
+//   if (!res.ok) {
+//     console.log("Error fetching TMdb data");
+//   }
+//   const data: Video = await res.json();
+//   return data;
+// }
+//
+// async function fetchTmdbData(title: string) {
+//   const res = await fetch(
+//     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${title}`
+//   );
+//   if (!res.ok) {
+//     console.log("Error fetching TMdb data");
+//   }
+//   const data: Tmdb = await res.json();
+//   return data;
+// }
 
 async function fetchMovieData(title: string) {
   const res = await fetch(
@@ -41,47 +41,34 @@ async function fetchMovieData(title: string) {
 }
 export default async function MoviePage({ params: { movietitle } }: PageProps) {
   const movieData = await fetchMovieData(movietitle);
-  const tmdbData = await fetchTmdbData(movieData.Title);
-  const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
+  // const tmdbData = await fetchTmdbData(movieData.Title);
+  // const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
 
   return (
-    <div className="flex justify-center items-center">
-      <Ytvideo title={movietitle} results={videoInfo?.results} />
-      <div className="md:flex md:justify-center md:items-center md:pt-10">
-        <img
-          src={movieData?.Poster}
-          alt={"poster for ${movieTitle}"}
-          className="md:mx-0 relative object-fill mx-auto border-2 border-orange-500 rounded-md drop-shadow-2xl"
-        />
-        <div className="md:w-1/2 text-2xl py-5 pl-5">
-          <div className="md:flex md:items-end">
-            <h1 className="pr-2">Title:</h1>
-            <p className="text-lg">{movieData.Title}</p>
-          </div>
-          <div className="md:flex md:items-end">
-            <h1 className="pr-2">Genre: </h1>
-            <p className="text-lg">{movieData.Genre}</p>
-          </div>
-          <div className="">
-            <h1 className="">Runtime: </h1>
-            <p className="text-lg">{movieData.Runtime}</p>
-          </div>
-          <div>
-            <h1 className="">Awards: </h1>
-            <p className="text-lg">{movieData.Awards}</p>
-          </div>
-          <div>
-            <h1>Featured Actors: </h1>
-            <p className="text-lg">{movieData.Actors}</p>
-          </div>
-          <div>
-            <h1 className="">Description: </h1>
-            <p className="text-lg">{movieData.Plot}</p>
-          </div>
-
-          <div>
-            <h1 className="">Rating: </h1>
-            <p className="text-lg">{movieData.imdbRating}</p>
+    <div className="flex justify-center items-center mt-10">
+      <div className="card w-5/6 mx-1 glass md:card-side md:mx-2 md:w-fit lg:w-fit">
+        <figure>
+          <img
+            src={movieData?.Poster}
+            alt={"poster for ${movieTitle}"}
+            className="object-cover rounded-md drop-shadow-2xl mt-5 md:mt-0 md:h-full"
+          />
+        </figure>
+        <div className="card-body text-2xl md:w-1/2">
+          <h2 className="card-title md:text-2xl">{movieData.Title}</h2>
+          <h3>{movieData.Actors}</h3>
+          <p className="flex flex-wrap">{movieData.Plot}</p>
+          <p>{movieData.Awards}</p>
+          <p>⭐{movieData.imdbRating}</p>
+          <div className="card-actions justify-end">
+            <button className="btn btn-primary">
+              <Link
+                href={`https://youtube.com/results?search_query=${movieData.Title}`}
+                target="_blank"
+              >
+                Trailer
+              </Link>
+            </button>
           </div>
         </div>
       </div>

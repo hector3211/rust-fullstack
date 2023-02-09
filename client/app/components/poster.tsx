@@ -8,10 +8,6 @@ type PosterProps = {
   rating: number;
 };
 
-// type Token = {
-//   userRole: string;
-// };
-
 async function fetchPoster(title: string) {
   const res = await fetch(
     `http://www.omdbapi.com/?t=${title}&apikey=${process.env.POSTER_API_KEY}`
@@ -32,7 +28,7 @@ export default async function MoviePoster({ title, id, rating }: PosterProps) {
         <img
           src={poster.Poster}
           alt={` poster for ${title}`}
-          className="h-60 object-fill border-2 border-orange-500 rounded-md"
+          className="h-60 object-fill rounded-md"
         />
       </Link>
       <div className="flex justify-between items-start py-1">
