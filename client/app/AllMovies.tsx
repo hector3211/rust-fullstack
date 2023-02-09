@@ -33,7 +33,7 @@ export default async function GetMovies() {
 }
 
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/getmovies`);
+  const res = await fetch(`${process.env.SERVER_URL}/getmovies`);
   if (!res) {
     throw new Error("Error fetching data from server");
   }

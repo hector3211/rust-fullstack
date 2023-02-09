@@ -1,5 +1,4 @@
 import AllTheMovies from "./AllMovies";
-// import NavBar from "./Nav";
 import Footer from "./Footer";
 
 export default async function Home() {

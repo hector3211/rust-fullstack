@@ -3,16 +3,16 @@ import { SignIn, SignOut } from "./actions";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 
-type User = {
-  user: {
-    name: string;
-    email: string;
-    image: string;
-  };
-};
+// type User = {
+//   user: {
+//     name: string;
+//     email: string;
+//     image: string;
+//   };
+// };
 
 export default async function Navbar() {
-  const session: User | null = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   return (
     <div className="navbar bg-zinc-600 fixed z-50 top-0 bg-opacity-60 backdrop-blur-md">
       <div className="flex-1">
