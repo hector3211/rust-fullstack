@@ -13,7 +13,6 @@ type User = {
 
 export default async function Navbar() {
   const session: User | null = await getServerSession(authOptions);
-  console.log(session?.user.name);
   return (
     <div className="navbar bg-zinc-600 fixed z-50 top-0 bg-opacity-60 backdrop-blur-md">
       <div className="flex-1">
@@ -21,15 +20,15 @@ export default async function Navbar() {
           RustFlix
         </a>
       </div>
-      <div className="flex-shrink md:tex-2xl lg:pr-5">
-        <ul className="menu menu-horizontal px-1">
+      <div className="flex-shrink pr-1 md:tex-2xl lg:pr-5">
+        <ul className="menu menu-horizontal md:px-1">
           <li>
-            <Link href={"/"} className="text-white">
+            <Link href={"/"} className="text-white rounded-md">
               Home
             </Link>
           </li>
           <li>
-            <Link href={"/about"} className="text-white">
+            <Link href={"/about"} className="text-white rounded-md">
               About
             </Link>
           </li>

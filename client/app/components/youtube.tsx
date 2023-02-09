@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
 
 type YtProps = {
+  title: string;
   results: {
     iso_639_1: string;
     iso_3166_1: string;
@@ -17,11 +19,7 @@ type YtProps = {
   }[];
 };
 
-/*
- * WOULD LIKE TO ADD SOME SORT OF TOAST WHEN NO VIDEO IS AVAILABLE !!!!!!!
- *
- */
-export default function YT({ results }: YtProps) {
+export default function YT({ results, title }: YtProps) {
   const [error, setError] = useState<true | false>(true);
   let [currentIdx, setCurrentIdx] = useState<number>(0);
   console.log(currentIdx);
@@ -42,21 +40,11 @@ export default function YT({ results }: YtProps) {
     setCurrentIdx((currentIdx += 1));
   }
 
-  // function startTime() {
-  //   setTimeout(() => {
-  //     handleError();
-  //   }, 5000);
-  // }
-  //
-  // useEffect(() => {
-  //   startTime();
-  // }, [currentIdx]);
-
   let currentVideo = results[currentIdx]?.key;
   return (
     <div>
-      {error && (
-        <div>
+      {error ? (
+        <div className="ml-10 mt-10">
           <YouTube
             className="object-fill border-2 border-orange-500 rounded-md shadow-black drop-shadow-lg"
             videoId={currentVideo}
@@ -64,9 +52,22 @@ export default function YT({ results }: YtProps) {
             onReady={onPlayerReady}
             onError={handleError}
           />
-          <button onClick={handleNextVideo} className="btn btn-success">
+          <button
+            onClick={handleNextVideo}
+            className="btn btn-success w-full mt-3"
+          >
             Next Video
           </button>
+        </div>
+      ) : (
+        <div className="absolute top-1/2 left-2/4">
+          <Link
+            href={`https://youtube.com/results?search_query=${title}`}
+            target="_blank"
+            className="text-xl btn btn-success"
+          >
+            Tailer
+          </Link>
         </div>
       )}
     </div>

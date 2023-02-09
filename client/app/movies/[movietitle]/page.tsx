@@ -45,54 +45,45 @@ export default async function MoviePage({ params: { movietitle } }: PageProps) {
   const videoInfo = await fetchVideoId(tmdbData?.results[0]?.id);
 
   return (
-    <div className="relative">
-      <div className="flex flex-col justify-center items-center">
-        <Ytvideo results={videoInfo?.results} />
-        <div className="md:flex md:justify-around md:items-center md:pt-10">
-          <img
-            src={movieData?.Poster}
-            alt={"poster for ${movieTitle}"}
-            className="md:mx-0 object-fill mx-auto border-2 border-teal-500 rounded-md drop-shadow-2xl"
-          />
-          <div className="px-3 md:w-1/2 text-2xl">
-            <div className="py-2 md:flex md:items-end">
-              <h1 className="pr-2">Title:</h1>
-              <p className="text-lg">{movieData.Title}</p>
-            </div>
-            <div className="py-2 md:flex md:items-end">
-              <h1 className="pr-2">Genre: </h1>
-              <p className="text-lg">{movieData.Genre}</p>
-            </div>
-            <div className="py-2">
-              <h1 className="">Runtime: </h1>
-              <p className="text-lg">{movieData.Runtime}</p>
-            </div>
-            <div className="py-2">
-              <h1 className="">Awards: </h1>
-              <p className="text-lg">{movieData.Awards}</p>
-            </div>
-            <div className="py-2">
-              <h1 className="">Featured Actors: </h1>
-              <p className="text-lg">{movieData.Actors}</p>
-            </div>
-            <div className="py-2">
-              <h1 className="">Description: </h1>
-              <p className="text-lg">{movieData.Plot}</p>
-            </div>
+    <div className="flex justify-center items-center">
+      <Ytvideo title={movietitle} results={videoInfo?.results} />
+      <div className="md:flex md:justify-center md:items-center md:pt-10">
+        <img
+          src={movieData?.Poster}
+          alt={"poster for ${movieTitle}"}
+          className="md:mx-0 relative object-fill mx-auto border-2 border-orange-500 rounded-md drop-shadow-2xl"
+        />
+        <div className="md:w-1/2 text-2xl py-5 pl-5">
+          <div className="md:flex md:items-end">
+            <h1 className="pr-2">Title:</h1>
+            <p className="text-lg">{movieData.Title}</p>
+          </div>
+          <div className="md:flex md:items-end">
+            <h1 className="pr-2">Genre: </h1>
+            <p className="text-lg">{movieData.Genre}</p>
+          </div>
+          <div className="">
+            <h1 className="">Runtime: </h1>
+            <p className="text-lg">{movieData.Runtime}</p>
+          </div>
+          <div>
+            <h1 className="">Awards: </h1>
+            <p className="text-lg">{movieData.Awards}</p>
+          </div>
+          <div>
+            <h1>Featured Actors: </h1>
+            <p className="text-lg">{movieData.Actors}</p>
+          </div>
+          <div>
+            <h1 className="">Description: </h1>
+            <p className="text-lg">{movieData.Plot}</p>
+          </div>
 
-            <div className="py-2">
-              <h1 className="">Rating: </h1>
-              <p className="text-lg">{movieData.imdbRating}</p>
-            </div>
+          <div>
+            <h1 className="">Rating: </h1>
+            <p className="text-lg">{movieData.imdbRating}</p>
           </div>
         </div>
-        <Link
-          href={`https://youtube.com/results?search_query=${movietitle}`}
-          target="_blank"
-          className="relative bottom-0 text-xl btn btn-success w-1/2"
-        >
-          Tailer
-        </Link>
       </div>
     </div>
   );

@@ -25,21 +25,14 @@ async function fetchPoster(title: string) {
 
 export default async function MoviePoster({ title, id, rating }: PosterProps) {
   const poster = await fetchPoster(title);
-  if (!poster) {
-    return (
-      <div className="flex flex-wrap justify-evenly items-center pt-10">
-        <div>Loading...</div>
-      </div>
-    );
-  }
 
   return (
-    <div>
+    <div className="hover:scale-95">
       <Link href={`/movies/${poster.Title}`}>
         <img
           src={poster.Poster}
           alt={` poster for ${title}`}
-          className="h-60 object-fill border-2 border-teal-500 rounded-md"
+          className="h-60 object-fill border-2 border-orange-500 rounded-md"
         />
       </Link>
       <div className="flex justify-between items-start py-1">
