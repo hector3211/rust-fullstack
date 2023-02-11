@@ -37,15 +37,14 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed to create pool");
 
     HttpServer::new(move|| {
-        // let cors = Cors::default()
-        //     .allow_any_origin()
-        //     .allow_any_method()
-        //     .expose_any_header()
-        //     .max_age(3600);
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allow_any_method()
+            .expose_any_header();
         App::new()
             .app_data(web::Data::new(pool.clone()))
-                // .wrap(cors)
-                // .wrap(Logger::default())
+                .wrap(cors)
+                .wrap(Logger::default())
                 .service(get_all_movies)
                 // .service(get_movie)
                 .service(make_a_test_movies)
