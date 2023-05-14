@@ -9,7 +9,6 @@ pub fn get_all_moives(conn: &mut PgConnection) -> Result<Option<Vec<Movie>>,DbEr
     let all_movies: Vec<Movie> =  movies
         .load(conn)
         .expect("Error getting all Movies!");
-    drop(conn);
     Ok(Some(all_movies))
 }
 
@@ -31,7 +30,6 @@ pub fn add_movie(
         .execute(conn)
         .expect("Error creating movie");
 
-    drop(conn);
     Ok(())
 }
 
@@ -50,7 +48,6 @@ pub fn add_fake_movie(
         .execute(conn)
         .expect("Error creating movie");
 
-    drop(conn);
     Ok(())
 }
 
@@ -62,7 +59,6 @@ pub fn delete_movie_by_id(
     diesel::delete(movies.filter(id.eq(movie_id)))
         .execute(conn)
         .expect("Error deleting movie");
-    drop(conn);
     Ok(())
 
 }
